@@ -49,4 +49,13 @@ using (StreamReader reader = new StreamReader("data.csv"))
 }
 ```
 
+Sérialiser en CSV : 
+```CSharp
+public string ToCsv()
+{
+    // avec string interpolation
+    return $"{LastName};{FirstName};{BirthDate}";
+}
+```
+
 > Vous pouvez exécuter l'application à l'aide de la commande `dotnet run` (= `dotnet restore`, `dotnet build`, exécution). 

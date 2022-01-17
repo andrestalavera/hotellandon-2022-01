@@ -40,7 +40,7 @@ namespace HotelLandon.DemoConsole
                     {
                         continue;
                     }
-                    string[] splittedData = new string[3];
+                    string[] splittedData = line.Split(';');
                     Customer readedCustomer = new Customer()
                     {
                         LastName = splittedData[0],
