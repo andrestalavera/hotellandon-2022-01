@@ -79,7 +79,7 @@ using Newtonsoft.Json;
 // ...
 public string ToJson(Customer customer)
 {
-    return JsonConvert.Serialize(customer);
+    return JsonConvert.SerializeObject(customer);
 }
 ```
 
@@ -88,7 +88,7 @@ public string ToJson(Customer customer)
 using Newtonsoft.Json;
 public Customer ToCustomer(string json)
 {
-    return JsonConvert.Deserialize<Customer>(json);
+    return JsonConvert.DeserializeObject<Customer>(json);
 }
 ```
 

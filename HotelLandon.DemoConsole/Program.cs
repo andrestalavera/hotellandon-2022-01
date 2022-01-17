@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using HotelLandon.Models;
 
@@ -36,7 +37,7 @@ namespace HotelLandon.DemoConsole
                 // Alternative: while ((line = reader.ReadLine()) != null)
                 {
                     string line = reader.ReadLine();
-                    if (line != null || string.IsNullOrWhiteSpace(line))
+                    if (line == null || string.IsNullOrWhiteSpace(line))
                     {
                         continue;
                     }
@@ -47,6 +48,11 @@ namespace HotelLandon.DemoConsole
                         FirstName = splittedData[1],
                         BirthDate = DateTime.Parse(splittedData[2])
                     };
+
+                    string json = JsonConvert.SerializeObject(readedCustomer);
+                    Console.WriteLine(json);
+
+                    JsonConvert.DeserializeObject<Customer>(json);
                 }
             }
         }
