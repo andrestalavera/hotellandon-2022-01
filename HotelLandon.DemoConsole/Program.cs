@@ -24,9 +24,9 @@ namespace HotelLandon.DemoConsole
                 BirthDate = DateTime.Parse(birthDate)
             };
 
-            using (StreamWriter writer = new StreamWriter("data.csv"))
+            using (StreamWriter writer = File.AppendText("data.csv"))
             {
-                writer.Write(customer.ToCsv());
+                writer.WriteLine(customer.ToCsv());
             }
         }
     }
