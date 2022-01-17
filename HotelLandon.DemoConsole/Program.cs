@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using HotelLandon.Models;
 
 namespace HotelLandon.DemoConsole
 {
@@ -14,6 +16,18 @@ namespace HotelLandon.DemoConsole
 
             Console.WriteLine("Date de naissance");
             string birthDate = Console.ReadLine();
+
+            Customer customer = new Customer()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                BirthDate = DateTime.Parse(birthDate)
+            };
+
+            using (StreamWriter writer = new StreamWriter("data.csv"))
+            {
+                writer.Write(customer.ToCsv());
+            }
         }
     }
 }
