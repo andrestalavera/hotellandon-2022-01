@@ -28,6 +28,27 @@ namespace HotelLandon.DemoConsole
             {
                 writer.WriteLine(customer.ToCsv());
             }
+
+            using (StreamReader reader = new StreamReader("data.csv"))
+            {
+                // string line = string.Empty;
+                while (!reader.EndOfStream)
+                // Alternative: while ((line = reader.ReadLine()) != null)
+                {
+                    string line = reader.ReadLine();
+                    if (line != null || string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
+                    string[] splittedData = new string[3];
+                    Customer readedCustomer = new Customer()
+                    {
+                        LastName = splittedData[0],
+                        FirstName = splittedData[1],
+                        BirthDate = DateTime.Parse(splittedData[2])
+                    };
+                }
+            }
         }
     }
 }

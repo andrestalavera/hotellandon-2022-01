@@ -16,4 +16,37 @@
 1. Ecrire un programme console capable d'instancier un `Customer`
 1. Sérialiser et désérialiser en CSV grâce aux classes `System.IO.StreamWriter` et `System.IO.StreamReader`
 
+Créer un fichier, remplacer un fichier avec un nouveau contenu :
+```CSharp
+using (StreamWriter writer = new StreamWriter("data.csv"))
+{
+    writer.WriteLine(customer.ToCsv());
+}
+```
+
+Ajouter du texte dans un fichier existant :
+```CSharp
+using (StreamWriter writer = File.AppendText("data.csv"))
+{
+    writer.WriteLine(customer.ToCsv());
+}
+```
+
+Lire du texte depuis un fichier :
+```CSharp
+using (StreamReader reader = new StreamReader("data.csv"))
+{
+    while (!reader.EndOfStream)
+    // Alternative: while ((line = reader.ReadLine()) != null)
+    {
+        string line = reader.ReadLine();
+        if (line != null || string.IsNullOrWhiteSpace(line))
+        {
+            // permet d'ignorer la ligne
+            continue;
+        }
+    }
+}
+```
+
 > Vous pouvez exécuter l'application à l'aide de la commande `dotnet run` (= `dotnet restore`, `dotnet build`, exécution). 
