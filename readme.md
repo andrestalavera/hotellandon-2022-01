@@ -12,5 +12,8 @@
 
 ## Programme console
 1. Créer un projet console avec la commande `dotnet new console --name HotelLandon.DemoConsole`
-1. Référencer le projet `HotelLandon.Models` dans le nouveau projet grâce à la commande `dotnet add reference ../HotelLandon.Models`
+1. Référencer le projet `HotelLandon.Models` dans le nouveau projet grâce à la commande `dotnet add reference HotelLandon.Models`
 1. Ecrire un programme console capable d'instancier un `Customer`
+1. Sérialiser et désérialiser en CSV grâce aux classes `System.IO.StreamWriter` et `System.IO.StreamReader`
+
+> Vous pouvez exécuter l'application à l'aide de la commande `dotnet run` (= `dotnet restore`, `dotnet build`, exécution). 

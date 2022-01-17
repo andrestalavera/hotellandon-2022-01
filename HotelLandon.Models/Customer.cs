@@ -6,6 +6,10 @@ namespace HotelLandon.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string ToCsv()
+        {
+            return $"{LastName};{FirstName};{BirthDate:O}";
+        }
     }
 }
