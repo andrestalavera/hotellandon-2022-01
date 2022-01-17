@@ -16,7 +16,7 @@
 1. Ecrire un programme console capable d'instancier un `Customer`
 1. Sérialiser et désérialiser en CSV grâce aux classes `System.IO.StreamWriter` et `System.IO.StreamReader`
 
-Créer un fichier, remplacer un fichier avec un nouveau contenu :
+### Créer un fichier, remplacer un fichier avec un nouveau contenu :
 ```CSharp
 using (StreamWriter writer = new StreamWriter("data.csv"))
 {
@@ -24,7 +24,7 @@ using (StreamWriter writer = new StreamWriter("data.csv"))
 }
 ```
 
-Ajouter du texte dans un fichier existant :
+### Ajouter du texte dans un fichier existant :
 ```CSharp
 using (StreamWriter writer = File.AppendText("data.csv"))
 {
@@ -32,7 +32,7 @@ using (StreamWriter writer = File.AppendText("data.csv"))
 }
 ```
 
-Lire du texte depuis un fichier :
+### Lire du texte depuis un fichier :
 ```CSharp
 using (StreamReader reader = new StreamReader("data.csv"))
 {
@@ -49,12 +49,46 @@ using (StreamReader reader = new StreamReader("data.csv"))
 }
 ```
 
-Sérialiser en CSV : 
+### Sérialiser en CSV : 
 ```CSharp
 public string ToCsv()
 {
     // avec string interpolation
     return $"{LastName};{FirstName};{BirthDate}";
+}
+```
+
+### Désérialiser depuis du CSV : 
+```CSharp
+public Customer ToCustomer(string line)
+{
+    return new Customer()
+    {
+        // mapper les propriétés avec les indes des 'colonnes'
+        LastName = line[0],
+        FirstName = line[1],
+        BirthDate = DateTime.Parse(line[2])
+    }
+}
+```
+
+### Sérialiser en JSON
+> Pour installer un package NuGet avec dotnet-cli : `dotnet add package {NOM_PACKAGE}` *(`dotnet add package Newtonsoft.Json`)*.
+```CSharp
+using Newtonsoft.Json;
+// ...
+public string ToJson(Customer customer)
+{
+    return JsonConvert.Serialize(customer);
+}
+```
+
+### Désérialiser en JSON 
+```CSharp
+using Newtonsoft.Json;
+public Customer ToCustomer(string json)
+{
+    return JsonConvert.Deserialize<Customer>(json);
 }
 ```
 
