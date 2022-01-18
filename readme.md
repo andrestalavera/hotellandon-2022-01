@@ -107,11 +107,53 @@ public Customer ToCustomer(string json)
 1. Faire hériter les classes `Customer`, `Room` et `Reservation` de la nouvelle classe `EntityBase`
 1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`)
 
-### Créer un projet 
+### Créer un projet pour tester EF Core
 1. Créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
 1. Ajouter des chambres (avec une boucle pour initialiser la liste des chambres disponibles).
 
-# Ressources complémentaires
+### Génériques (repository)
+> Un paramètre générique est entouré de chevrons. Voir l'exemple en bas de cette section.
+
+1. Créer un projet `HotelLandon.Repository`
+1. Créer l'interface `IRepositoryBase`. Elle doit prendre un paramètre générique (_TEntity par exemple_).
+1. Utiliser la classe `RepositoryBase<TEntity>` au lieu de `HotelLandonContext` pour ajouter des clients
+
+```CSharp
+/// <summary>
+/// Définition d'une classe générique 
+/// avec des exemples de contraintes 
+/// </summary>
+/// <remarks>
+/// il peut ne pas y en avoir</remarks>
+class Repository<TEntity>
+// TEntity doit avoir un constructeur public sans paramètres
+// where TEntity : new()
+
+// TEntity doit être une classe (pas une interface par exemple)
+// where TEntity : class
+
+// TEntity doit hériter de EntityBase
+    where TEntity : EntityBase
+{
+}
+
+// utilisation
+class Program
+{
+    static void Main()
+    {
+        // Room hérite de EntityBase, Repository
+        var repository = new Repository<Room>();
+    }
+}
+```
+
+## Créer la solution
+1. Utiliser la commande `dotnet new sln --name HotelLandon` pour créer une solution Visual Studio nommée "HotelLandon"
+1. Pour chaque projet, l'ajouter à la solution à l'aide de la commande `dotnet sln add [PATH-RELATIF-DU-PROJET]` _(`dotnet sln add HotelLandon.Data`)_
+1. Ouvrir la solution avec Visual Studio
+
+## Ressources complémentaires
 - [LinkedIn Learning](https://linkedin.com/learning) (cours vidéo avec présentations - payant, 20€/mois~)
 - [Microsoft Learn](https://learn.microsoft.com) (Cours écrit avec TP - gratuit)
 - [Documentation .NET](https://docs.microsoft.com/dotnet)
