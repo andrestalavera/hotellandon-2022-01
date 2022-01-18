@@ -106,3 +106,13 @@ public Customer ToCustomer(string json)
 1. Dans le projet `HotelLandon.Models`, ajouter une classe abstraite `EntityBase` qui contient une seule propriété `int Id`
 1. Faire hériter les classes `Customer`, `Room` et `Reservation` de la nouvelle classe `EntityBase`
 1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`)
+
+### Créer un projet 
+1. Créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
+1. Ajouter des chambres (avec une boucle pour initialiser la liste des chambres disponibles).
+
+# Ressources complémentaires
+- [LinkedIn Learning](https://linkedin.com/learning) (cours vidéo avec présentations - payant, 20€/mois~)
+- [Microsoft Learn](https://learn.microsoft.com) (Cours écrit avec TP - gratuit)
+- [Documentation .NET](https://docs.microsoft.com/dotnet)
+- [Documentation EFCore](https://docs.microsoft.com/ef/core)
