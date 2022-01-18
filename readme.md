@@ -93,3 +93,14 @@ public Customer ToCustomer(string json)
 ```
 
 > Vous pouvez exécuter l'application à l'aide de la commande `dotnet run` (= `dotnet restore`, `dotnet build`, exécution). 
+
+## Données
+> Installer des outils pour .NET : `dotnet tool install [NAME]`
+
+1. Créer un projet _librairie de classes_ `HotelLandon.Data`
+1. Installer les packages `Microsoft.EntityFrameworkCore`, `Microsoft.EntityFrameworkCore.SqlServer` et `Microsoft.EntityFrameworkCore.SqlServer.Design`
+1. Créer la classe `HotelLandonContext` qui hérite de `Microsoft.EntityFrameworkCore.DbContext` et qui contient 3 propriétés : 
+- `DbSet<Room> Rooms`
+- `DbSet<Customer> Customers`
+- `DbSet<Reservation> Reservations`
+1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`)
