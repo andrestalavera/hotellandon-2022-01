@@ -98,14 +98,14 @@ public Customer ToCustomer(string json)
 > Installer des outils pour .NET : `dotnet tool install [NAME]`
 
 1. Créer un projet _librairie de classes_ `HotelLandon.Data`
-1. Installer les packages `Microsoft.EntityFrameworkCore`, `Microsoft.EntityFrameworkCore.SqlServer` et `Microsoft.EntityFrameworkCore.SqlServer.Design`
+1. Installer les packages `Microsoft.EntityFrameworkCore`, `Microsoft.EntityFrameworkCore.SqlServer` et `Microsoft.EntityFrameworkCore.Design`
 1. Créer la classe `HotelLandonContext` qui hérite de `Microsoft.EntityFrameworkCore.DbContext` et qui contient 3 propriétés : 
 - `DbSet<Room> Rooms`
 - `DbSet<Customer> Customers`
 - `DbSet<Reservation> Reservations`
-1. Dans le projet `HotelLandon.Models`, ajouter une classe abstraite `EntityBase` qui contient une seule propriété `int Id`
-1. Faire hériter les classes `Customer`, `Room` et `Reservation` de la nouvelle classe `EntityBase`
-1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`)
+1. Dans le projet `HotelLandon.Models`, ajouter une classe abstraite `EntityBase` qui contient une seule propriété `int Id`.
+1. Faire hériter les classes `Customer`, `Room` et `Reservation` de la nouvelle classe `EntityBase`.
+1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`).
 
 ### Créer un projet pour tester EF Core
 1. Créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
@@ -114,10 +114,12 @@ public Customer ToCustomer(string json)
 ### Génériques (repository)
 > Un paramètre générique est entouré de chevrons. Voir l'exemple en bas de cette section.
 
-1. Créer un projet `HotelLandon.Repository`
+1. Créer un projet `HotelLandon.Repository`.
 1. Créer l'interface `IRepositoryBase`. Elle doit prendre un paramètre générique (_TEntity par exemple_).
-1. Utiliser la classe `RepositoryBase<TEntity>` au lieu de `HotelLandonContext` pour ajouter des clients
+1. Utiliser la classe `RepositoryBase<TEntity>` au lieu de `HotelLandonContext` pour ajouter des clients.
+1. Ajouter des chambres à l'aide d'une boucle.
 
+#### Exemple de code d'une classe générique
 ```CSharp
 /// <summary>
 /// Définition d'une classe générique 
@@ -150,11 +152,11 @@ class Program
 
 ## Créer la solution
 1. Utiliser la commande `dotnet new sln --name HotelLandon` pour créer une solution Visual Studio nommée "HotelLandon"
-1. Pour chaque projet, l'ajouter à la solution à l'aide de la commande `dotnet sln add [PATH-RELATIF-DU-PROJET]` _(`dotnet sln add HotelLandon.Data`)_
-1. Ouvrir la solution avec Visual Studio
+1. Pour chaque projet, l'ajouter à la solution à l'aide de la commande `dotnet sln add [PATH-RELATIF-DU-PROJET]` _(`dotnet sln add HotelLandon.Data`)_.
+1. Ouvrir la solution avec Visual Studio : tous les projets y sont référencés !
 
 ## Ressources complémentaires
 - [LinkedIn Learning](https://linkedin.com/learning) (cours vidéo avec présentations - payant, 20€/mois~)
-- [Microsoft Learn](https://learn.microsoft.com) (Cours écrit avec TP - gratuit)
+- [Microsoft Learn](https://learn.microsoft.com) (cours écrit avec TP - gratuit)
 - [Documentation .NET](https://docs.microsoft.com/dotnet)
 - [Documentation EFCore](https://docs.microsoft.com/ef/core)
