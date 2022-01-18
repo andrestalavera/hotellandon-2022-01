@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelLandon.DemoConsole", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelLandon.DemoEfCore", "HotelLandon.DemoEfCore\HotelLandon.DemoEfCore.csproj", "{72D1EDA2-B2C3-4DF8-A66B-E22D578FC2FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelLandon.Repository", "HotelLandon.Repository\HotelLandon.Repository.csproj", "{6646DD78-4ADA-4ECA-91EC-E6A872082173}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,17 @@ Global
 		{72D1EDA2-B2C3-4DF8-A66B-E22D578FC2FE}.Release|x64.Build.0 = Release|Any CPU
 		{72D1EDA2-B2C3-4DF8-A66B-E22D578FC2FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{72D1EDA2-B2C3-4DF8-A66B-E22D578FC2FE}.Release|x86.Build.0 = Release|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Debug|x64.Build.0 = Debug|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Debug|x86.Build.0 = Debug|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Release|x64.ActiveCfg = Release|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Release|x64.Build.0 = Release|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Release|x86.ActiveCfg = Release|Any CPU
+		{6646DD78-4ADA-4ECA-91EC-E6A872082173}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

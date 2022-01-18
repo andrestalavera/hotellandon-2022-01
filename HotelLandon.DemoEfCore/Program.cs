@@ -2,6 +2,7 @@
 using HotelLandon.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace HotelLandon.DemoEfCore
 {
@@ -32,6 +33,13 @@ namespace HotelLandon.DemoEfCore
                 context.Add(customer);
                 // on ne peut ajouter que des objets de type Customer :
                 // context.Customers.Add(customer);
+                if (context.Rooms.Any())
+                {
+                    for (int i = 1; i < 10; i++)
+                    {
+                        context.Rooms.Add(new Room { Number = i, Floor = 0 });
+                    }
+                }
                 context.SaveChanges();
             }            
         }
