@@ -103,4 +103,6 @@ public Customer ToCustomer(string json)
 - `DbSet<Room> Rooms`
 - `DbSet<Customer> Customers`
 - `DbSet<Reservation> Reservations`
+1. Dans le projet `HotelLandon.Models`, ajouter une classe abstraite `EntityBase` qui contient une seule propriété `int Id`
+1. Faire hériter les classes `Customer`, `Room` et `Reservation` de la nouvelle classe `EntityBase`
 1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`)
