@@ -2,7 +2,7 @@
 
 namespace HotelLandon.Models
 {
-    public class Reservation
+    public class Reservation : EntityBase
     {
         public Customer Customer { get; set; }
         public Room Room { get; set; }

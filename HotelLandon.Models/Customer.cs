@@ -2,7 +2,7 @@ using System;
 
 namespace HotelLandon.Models
 {
-    public class Customer
+    public class Customer : EntityBase
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
