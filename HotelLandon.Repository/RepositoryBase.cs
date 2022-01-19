@@ -17,14 +17,14 @@ namespace HotelLandon.Repository
         public IEnumerable<TEntity> GetAll() => context.Set<TEntity>().ToList();
 
         public TEntity Get(int id) => context.Set<TEntity>().Find(id);
-        
-        public bool Add(TEntity entity) 
+
+        public bool Add(TEntity entity)
         {
             context.Set<TEntity>().Add(entity);
             return context.SaveChanges() == 1;
         }
-        
-        public bool Update(TEntity entity, int id) 
+
+        public bool Update(TEntity entity, int id)
         {
             var local = context.Set<TEntity>()
             .Local
@@ -43,8 +43,8 @@ namespace HotelLandon.Repository
             return context.SaveChanges() == 1;
         }
 
-        public bool Delete(int id) 
-        { 
+        public bool Delete(int id)
+        {
             TEntity entity = Get(id);
 
             if (entity is not null)

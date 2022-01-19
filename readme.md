@@ -111,6 +111,43 @@ public Customer ToCustomer(string json)
 1. Créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
 1. Ajouter des chambres (avec une boucle pour initialiser la liste des chambres disponibles).
 
+______________________________________________
+
+## Autres
+
+### Exceptions
+Cela permet de gérer un comportement inattendu. Il peut être personnalisable. Les exceptions héritent de la classe `Exception` et, par convention, on suffixe avec `Exception`.
+
+> Il en existe quelques unes dans l'assembly `System`
+
+````
+CSharp
+DoSomething();
+try
+{
+    DoSomethingElse();
+}
+catch(FormatException ex)
+{
+    Console.WriteLine("Format incorrect.");
+}
+catch(Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+finally
+{
+    FinishAndExecuteAnyway();
+}
+```
+
+Une exception faite maison :
+```CSharp
+public class NoNumberException : Exception
+{
+}
+```
+
 ### Génériques (repository)
 > Un paramètre générique est entouré de chevrons. Voir l'exemple en bas de cette section.
 
@@ -148,6 +185,33 @@ class Program
         var repository = new Repository<Room>();
     }
 }
+```
+
+Les génériques peuvent s'utiliser avec des méthodes :
+```CSharp
+bool IsPositive<TEntity>(TEntity entity)
+    where TEntity : EntityBase
+{
+    if (entity.Id >= 0)
+    {
+        return true;
+    }
+    else return false;
+}
+```
+
+### Méthodes d'extension
+On peut ajouter des méthodes à des classes, même scellées.
+```CSharp
+public IsPositive<TEntity>(this TEntity entity)
+    where TEntity : EntityBase
+{
+    ...
+}
+
+// utilisation :
+Customer customer = new();
+bool isPositive = customer.IsPositive();
 ```
 
 ## Créer la solution

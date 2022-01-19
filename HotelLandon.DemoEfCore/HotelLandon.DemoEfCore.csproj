@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HotelLandon.Data\HotelLandon.Data.csproj" />
     <ProjectReference Include="..\HotelLandon.Models\HotelLandon.Models.csproj" />
+    <ProjectReference Include="..\HotelLandon.Repository\HotelLandon.Repository.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
