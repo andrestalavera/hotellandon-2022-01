@@ -99,7 +99,7 @@ ___
 ## Données
 > Installer des outils pour .NET : `dotnet tool install [NAME]`
 
-1. Créer un projet _librairie de classes_ `HotelLandon.Data`
+1. A la racine, créer un projet _librairie de classes_ `HotelLandon.Data`
 1. Installer les packages `Microsoft.EntityFrameworkCore`, `Microsoft.EntityFrameworkCore.SqlServer` et `Microsoft.EntityFrameworkCore.Design`
 1. Créer la classe `HotelLandonContext` qui hérite de `Microsoft.EntityFrameworkCore.DbContext` et qui contient 3 propriétés : 
 - `DbSet<Room> Rooms`
@@ -110,11 +110,27 @@ ___
 1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`).
 
 ### Créer un projet pour tester EF Core
-1. Créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
+1. A la racine, créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
 1. Ajouter des chambres (avec une boucle pour initialiser la liste des chambres disponibles).
 
 ## Web API
+1. A la racine, créer un projet Web API à l'aide de la commande `dotnet new webapi --name HotelLandon.Api`
+1. Exécuter et explorer
+1. Ajouter les références `HotelLandon.Data`, `HotelLandon.Models`, `HotelLandon.Repository` dans le projet `HotelLandon.Api`
+1. Créer un contrôleur avec les contraintes suivantes :
+- Abstrait
+- Hérite de `Microsoft.AspNetCore.Mvc.ControllerBase`
+- Prends 2 paramètres génériques : Repository qui doit hériter de `IRepositoryBase<TModel>` et le Modèle qui doit hériter de `TEntity`
 
+```csharp
+[Route("[controller]")]
+[ApiController]
+public abstract class GenericController<TRepository, TEntity> : ControllerBase
+    where TRepository : IRepositoryBase<TEntity>
+    where TEntity : EntityBase
+{
+}
+```
 ___
 ## Design Patterns
 
