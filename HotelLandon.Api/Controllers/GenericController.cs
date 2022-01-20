@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using HotelLandon.Models;
 using HotelLandon.Repository;
+using System.Diagnostics;
 
 namespace HotelLandon.Api.Controllers
 {
@@ -15,8 +16,8 @@ namespace HotelLandon.Api.Controllers
         where TRepository : IRepositoryBase<TEntity>
         where TEntity : EntityBase
     {
-        private readonly IRepositoryBase<TEntity> repository;
-        private readonly ILogger<GenericController<TRepository, TEntity>> logger;
+        protected readonly IRepositoryBase<TEntity> repository;
+        protected readonly ILogger<GenericController<TRepository, TEntity>> logger;
 
         public GenericController(IRepositoryBase<TEntity> repository,
             ILogger<GenericController<TRepository, TEntity>> logger)
@@ -26,16 +27,20 @@ namespace HotelLandon.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TEntity> Get()
+        public async Task<IEnumerable<TEntity>> Get()
         {
-            IEnumerable<TEntity> items = this.repository.GetAll();
+            await Task.Delay(0);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            IEnumerable<TEntity> items = await this.repository.GetAllAsync();
+            logger.LogInformation("{ms}ms", sw.ElapsedMilliseconds);
             return items;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TEntity> GetById(int id)
+        public async Task<ActionResult<TEntity>> GetById(int id)
         {
-            TEntity entity = this.repository.Get(id);
+            TEntity entity = await this.repository.GetAsync(id);
             if (entity == null)
             {
                 return NotFound();
@@ -44,9 +49,9 @@ namespace HotelLandon.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TEntity> Create(TEntity entity)
+        public async Task<ActionResult<TEntity>> Create(TEntity entity)
         {
-            if (this.repository.Add(entity))
+            if (await this.repository.AddAsync(entity))
             {
                 return Created("Ok", entity);
             }
@@ -54,13 +59,13 @@ namespace HotelLandon.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(TEntity entity, int id)
+        public async Task<IActionResult> Update(TEntity entity, int id)
         {
             if (!entity.Id.Equals(id))
             {
                 return BadRequest("Les ids ne correspondent pas");
             }
-            if (this.repository.Update(entity, id))
+            if (await this.repository.UpdateAsync(entity, id))
             {
                 return NoContent();
             }
@@ -68,9 +73,9 @@ namespace HotelLandon.Api.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (this.repository.Delete(id))
+            if (await this.repository.DeleteAsync(id))
             {
                 return NoContent();
             }

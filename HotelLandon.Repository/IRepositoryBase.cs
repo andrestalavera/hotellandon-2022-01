@@ -1,15 +1,16 @@
 using HotelLandon.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HotelLandon.Repository
 {
     public interface IRepositoryBase<TEntity>
         where TEntity : EntityBase
     {
-        IEnumerable<TEntity> GetAll();
-        TEntity Get(int id);
-        bool Add(TEntity entity);
-        bool Update(TEntity entity, int id);
-        bool Delete(int id);
+        Task<List<TEntity>> GetAllAsync();
+        Task<TEntity> GetAsync(int id);
+        Task<bool> AddAsync(TEntity entity);
+        Task<bool> UpdateAsync(TEntity entity, int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

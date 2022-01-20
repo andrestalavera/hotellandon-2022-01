@@ -1,7 +1,7 @@
 ﻿using HotelLandon.Data;
 using HotelLandon.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,17 +14,17 @@ namespace HotelLandon.Repository
 
         public RepositoryBase() => context = new HotelLandonContext();
 
-        public IEnumerable<TEntity> GetAll() => context.Set<TEntity>().ToList();
+        public Task<List<TEntity>> GetAllAsync() => context.Set<TEntity>().ToListAsync();
 
-        public TEntity Get(int id) => context.Set<TEntity>().Find(id);
+        public async Task<TEntity> GetAsync(int id) => await context.Set<TEntity>().FindAsync(id);
 
-        public bool Add(TEntity entity)
+        public async Task<bool> AddAsync(TEntity entity)
         {
             context.Set<TEntity>().Add(entity);
-            return context.SaveChanges() == 1;
+            return await context.SaveChangesAsync() == 1;
         }
 
-        public bool Update(TEntity entity, int id)
+        public async Task<bool> UpdateAsync(TEntity entity, int id)
         {
             var local = context.Set<TEntity>()
             .Local
@@ -40,17 +40,17 @@ namespace HotelLandon.Repository
             context.Entry(entity).State = EntityState.Modified;
 
             // save 
-            return context.SaveChanges() == 1;
+            return await context.SaveChangesAsync() == 1;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            TEntity entity = Get(id);
+            TEntity entity = await GetAsync(id);
 
             if (entity is not null)
             {
                 context.Remove(entity);
-                return context.SaveChanges() == 1;
+                return await context.SaveChangesAsync() == 1;
             }
             return false;
         }
