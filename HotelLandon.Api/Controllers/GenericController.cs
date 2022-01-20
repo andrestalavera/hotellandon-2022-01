@@ -52,5 +52,29 @@ namespace HotelLandon.Api.Controllers
             }
             return NoContent();
         }
+
+        [HttpPut]
+        public IActionResult Update(TEntity entity, int id)
+        {
+            if (!entity.Id.Equals(id))
+            {
+                return BadRequest("Les ids ne correspondent pas");
+            }
+            if (this.repository.Update(entity, id))
+            {
+                return NoContent();
+            }
+            return StatusCode(406);
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            if (this.repository.Delete(id))
+            {
+                return NoContent();
+            }
+            return Ok(true);
+        }
     }
 }
