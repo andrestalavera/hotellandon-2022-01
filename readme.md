@@ -2,6 +2,115 @@
 > Pour vérifier la version des SDKS : `dotnet --list-sdks`
 > Pour vérifier la version des runtimes : `dotnet --list-runtimes`
 
+## Syntaxe C#
+
+### Légende
+| Symbole | Définition |
+|-|-|
+| `\|` | `x` ou `y`. |
+| `[abc]` | Non obligatoire.
+
+```csharp
+/* Définition d'une classe
+Portée/visibilité (voir section dédiée ci-dessous)
+Modificateur (voir section dédiée ci-dessous)
+Le mot clé `class`
+Nom de la classe (ClassName)
+Si héritage, ajouter ":" + le nom de la classe parente (on ne peut hériter que d'une seule classe, mais de plusieurs interfaces)
+Par convention, elle doit être écrite en PascalCase
+*/
+public|internal|protected|private [abstract|static|sealed] class ClassName
+{
+    /* Champ privé :
+    Portée
+    Type (HttpClient)
+    nom du champ (httpclient)
+    */
+    private HttpClient httpClient;
+
+    /* Propriété
+    - Portée (visibilité)
+    - Type
+    - Nom de la propriété
+    - Accesseur (leur portée peut être différente)
+    */
+    public HttpClient HttpClient { get; public|internal|protected|private set; } = new HttpClient();
+
+    /* Constructeur 
+    - Paramètres entre parenthèses
+    - Si héritage de constructeur, le mot clé `base` avec les paramètres du contructeur parent
+    */
+    public ClassName([params]TypeParametre nomParametre)
+        [base(/*Paramètres du contructeur parent*/)]
+    {
+
+    }
+
+    public void DoSomething()
+    {
+
+    }
+}
+```
+
+### Portée
+
+| Portée | Description |
+|-|-|
+| `public` | Visible par toutes les classes, quelque soit l'assembly. |
+| `internal` | Visible par toutes les classes du même assembly. |
+| `protected` | Visible par la classe et les classes qui hérite de celle-ci. |
+| `private` | Visible uniquement par la classe. |
+
+### Modificateur
+| | Description |
+|-|-|
+| `abstract` | La classe ne peut pas être instanciée, elle peut comporter des champs/propriété ou méthodes abstraites. |
+| `static` | La classe ne peut pas être instanciée, les méthodes publiques sont accessibles depuis l'objet (Exemple `System.Console` ou `System.IO.File`). |
+| `sealed` | La classe ne peut plus être parente d'une autre classe. |
+
+### Propriété
+`public HttpClient HttpClient { get; set; } [= new()]`
+
+| Index | Description |
+|-|-|
+| 0 | Portée | 
+| 1 | Type de la proriété |
+| 2 | Nom de la propriété |
+| 3 | Accesseurs, la portée peut être modifiée pour l'un ou l'autre (par exemple ``public HttpClient HttpClient { get; private set; }``) |
+| 4 | Symbole `=` pour affecter une valeur par défaut |
+| 5 | Valeur |
+
+### Champ
+`private [readonly] HttpClient _httpClient [= new()];`
+
+| Index | Description |
+|-|-|
+| 0 | Portée |
+| 1 | Qualificatif `readonly`, on ne pourra affecter la valeur que lors de la construction d'une instance. |
+| 2 | Type du champs |
+| 3 | Nom du champs |
+| 4 | Symbole `=` pour affecter une valeur par défaut |
+| 5 | Valeur |
+
+### Méthode
+`private void DoSomething(Type type, Type type) { ... }`
+
+| Index | Description |
+|-|-|
+| 0 | Portée |
+| 1 | Type de retour (`int`\|`string`\|`Customer`\|...) ou le mot clé `void` pour signifier que l'on n'a pas de type de retour. |
+| 2 | Nom de la méthode. Par convention, c'est du PascalCase |
+| 3 | Paramètres de la méthode. Par convention, la case est camelCase. |
+
+Le mot clé `params` permet d'avoir un nombre illimité de paramètres. Le type doit être un tableau.
+```csharp
+void DoSomething(params string[] array)
+{
+
+}
+```
+___
 ## Modèles 
 1. Ouvrir un terminal dans le dossier `C:\Repos`
 1. Créer un projet `librairie de classes` à l'aide de .NET CLI grâce à la commande `dotnet new classlib --name HotelLandon.Models`
@@ -118,9 +227,10 @@ ___
 1. Exécuter et explorer
 1. Ajouter les références `HotelLandon.Data`, `HotelLandon.Models`, `HotelLandon.Repository` dans le projet `HotelLandon.Api`
 1. Créer un contrôleur avec les contraintes suivantes :
-- Abstrait
-- Hérite de `Microsoft.AspNetCore.Mvc.ControllerBase`
-- Prends 2 paramètres génériques : Repository qui doit hériter de `IRepositoryBase<TModel>` et le Modèle qui doit hériter de `TEntity`
+- Classe abstraite (mot-clé `abstract`).
+- Hérite de `Microsoft.AspNetCore.Mvc.ControllerBase`.
+- Prends 2 paramètres génériques : Repository qui doit hériter de `IRepositoryBase<TModel>` et le Modèle qui doit hériter de `TEntity`.
+- Décorée par les attributs `Microsoft.AspNetCore.Mvc.ApiController` et `Microsoft.AspNetCore.Mvc.Route` (ce dernier doit prendre en paramètre un template, par exemple `[controller]` pour que les routes correspondent au nom du contrôleur).
 
 ```csharp
 [Route("[controller]")]
