@@ -22,34 +22,42 @@ Par convention, elle doit être écrite en PascalCase
 public|internal|protected|private [abstract|static|sealed] class ClassName
 {
     /* Champ privé :
-    Portée
-    Type (HttpClient)
-    nom du champ (httpclient)
+    - Portée (visibilité par les autres classes)
+    - Type (HttpClient)
+    - nom du champ (camelCase)
     */
     private HttpClient httpClient;
 
     /* Propriété
-    - Portée (visibilité)
+    - Portée
     - Type
     - Nom de la propriété
     - Accesseur (leur portée peut être différente)
+    - On peut directement affecter une valeur par défaut
     */
-    public HttpClient HttpClient { get; public|internal|protected|private set; } = new HttpClient();
+    public HttpClient HttpClient { get; internal|protected|private set; } = new HttpClient();
 
     /* Constructeur 
-    - Paramètres entre parenthèses
+    C'est une méthode sans nom
+    - Portée
+    - Nom de la classe
+    - Entre parenthèses, les éventuels paramètres
     - Si héritage de constructeur, le mot clé `base` avec les paramètres du contructeur parent
     */
-    public ClassName([params]TypeParametre nomParametre)
-        [base(/*Paramètres du contructeur parent*/)]
-    {
+    public ClassName() { }
+    public ClassName(Foo foo) { }
+    public ClassName(params Foo[] foos) { }
+    public ClassName(Type type) : base (type) { }
 
-    }
-
-    public void DoSomething()
-    {
-
-    }
+    /* Méthode
+    - Portée
+    - Type de retour
+    - Entre parenthèses, les éventuels paramètres
+    - Si héritage d'une méthode parente (et qu'on souhaite l'utiliser), le mot clé `base`
+    */
+    public void DoSomething() { }
+    public void DoSomething(Foo foo) { }
+    public void DoSomething(params Foo[] foos) { }
 }
 ```
 
@@ -68,6 +76,13 @@ public|internal|protected|private [abstract|static|sealed] class ClassName
 | `abstract` | La classe ne peut pas être instanciée, elle peut comporter des champs/propriété ou méthodes abstraites. |
 | `static` | La classe ne peut pas être instanciée, les méthodes publiques sont accessibles depuis l'objet (Exemple `System.Console` ou `System.IO.File`). |
 | `sealed` | La classe ne peut plus être parente d'une autre classe. |
+
+
+> Plus d'informations 
+>
+> - Mot clé `abstract` https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/abstract
+> - Mot clé `sealed`   https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/sealed
+> - Mot clé `static`   https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/static
 
 ### Propriété
 `public HttpClient HttpClient { get; set; } [= new()]`
@@ -94,7 +109,7 @@ public|internal|protected|private [abstract|static|sealed] class ClassName
 | 5 | Valeur |
 
 ### Méthode
-`private void DoSomething(Type type, Type type) { ... }`
+`private void DoSomething(Foo foo1, Foo foo2) { ... }`
 
 | Index | Description |
 |-|-|
@@ -103,17 +118,59 @@ public|internal|protected|private [abstract|static|sealed] class ClassName
 | 2 | Nom de la méthode. Par convention, c'est du PascalCase |
 | 3 | Paramètres de la méthode. Par convention, la case est camelCase. |
 
-Le mot clé `params` permet d'avoir un nombre illimité de paramètres. Le type doit être un tableau.
-```csharp
-void DoSomething(params string[] array)
-{
+> Plus d'informations sur les méthodes : https://docs.microsoft.com/dotnet/csharp/methods
 
-}
+#### Méthode asynchrone & le mot clé `async`
+`private Task DoSomethingAsync(Foo foo1, Foo foo2) { ... }`
+
+- Même fonctionnement et but que la méthode classique.
+- Mot clé `async` (entre la portée et le type de retour).
+- Le type de retour qui change : il doit s'agir d'un objet de type `System.Threading.Tasks.Task<>` (type générique qui peut prendre un autre type).
+
+| Type synchrone | Type asynchrone |
+|-|-|
+|`void`|`Task`|
+|`int`|`Task<int>`|
+|`string`|`Task<string>`|
+|`double`|`Task<double>`|
+|...|...|
+
+> Attention à ne pas abuser de l'asynchronisme. Cela peut être contreproductif.
+
+> Plus d'informations sur les tâches asynchrones : https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/async/
+
+#### Le mot clé `params`
+- Permet d'avoir un nombre illimité de paramètres. 
+- Le type doit être un tableau.
+- Il doit être le dernier paramètre
+```csharp
+// signature dans la méthode
+void DoSomething(params string[] array) { ... }
+
+// utilisation
+DoSomething("first", "second", "third", "fourth", "fifth", "sixth");
 ```
+
+> Plus d'informations sur le mot clé `params` : https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/params
+
+### Attributs
+Permet de décorer une classe pour lui donner un _flag_ ou de nouveaux paramètres.
+```csharp
+// déclaration
+public class FooAttribute : System.Attribute
+{
+}
+
+// utilisation
+```
+> Plus d'informations sur les attributs : https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/
+___
+# Hotel Landon
+Application légère de réservation d'hôtel
 ___
 ## Modèles 
-1. Ouvrir un terminal dans le dossier `C:\Repos`
-1. Créer un projet `librairie de classes` à l'aide de .NET CLI grâce à la commande `dotnet new classlib --name HotelLandon.Models`
+1. Ouvrir un terminal dans le dossier de votre choix, par exemple `C:\Repos`. On l'appelera le _dossier racine_.
+1. Dans le terminal, à la racine, créer un projet _librairie de classes_ à l'aide de .NET CLI grâce à la commande `dotnet new classlib --name HotelLandon.Models`
 1. Créer 3 classes : `Customer`, `Room` et `Reservation`
 - `Customer` contient les propriétés suivantes : `FirstName`, `LastName`, `Birthdate`
 - `Room` contient `Number`, `Floor`
@@ -146,18 +203,29 @@ using (StreamWriter writer = File.AppendText("data.csv"))
 ```csharp
 using (StreamReader reader = new StreamReader("data.csv"))
 {
-    while (!reader.EndOfStream)
-    // Alternative: while ((line = reader.ReadLine()) != null)
+    int lineNumber = 0;
+    while (!reader.EndOfStream) // Alternative: while ((line = reader.ReadLine()) != null)
     {
         string line = reader.ReadLine();
-        if (line != null || string.IsNullOrWhiteSpace(line))
+        if (line == null || string.IsNullOrWhiteSpace(line))
         {
-            // permet d'ignorer la ligne
+            Console.WriteLine($"La ligne {lineNumber} est vide.");
+
+            // permet d'ignorer la ligne du fichier
+            // et de passer à la suivante
+            // la prochaine instruction qui va s'exécuter sera :
+            // string line = reader.ReadLine();
             continue;
         }
+        Console.WriteLine(line);
+        lineNumber++;
     }
 }
 ```
+
+> Contrairement à `break`, `continue` ne va pas casser la boucle entière.
+
+> Plus d'informations sur les instructions de saut : https://docs.microsoft.com/dotnet/csharp/language-reference/statements/jump-statements
 
 ### Sérialiser en CSV : 
 ```csharp
@@ -217,6 +285,10 @@ ___
 1. Dans le projet `HotelLandon.Models`, ajouter une classe abstraite `EntityBase` qui contient une seule propriété `int Id`.
 1. Faire hériter les classes `Customer`, `Room` et `Reservation` de la nouvelle classe `EntityBase`.
 1. Installer l'outil `dotnet-ef` grâce à la commande `dotnet tool install` au niveau global (argument `--global`).
+1. Ajouter les propriétés de navigation représentant les clés étrangères :
+- Dans la classe `Customer`, `HashSet<Reservation> Reservations`
+- Dans la classe `Room`, `HashSet<Reservation> Reservations`
+- Dans la classe `Reservation`, `int CustomerId` et `int RoomId`
 
 ### Créer un projet pour tester EF Core
 1. A la racine, créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
