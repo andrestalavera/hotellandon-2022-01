@@ -184,8 +184,7 @@ Cela permet de gérer un comportement inattendu. Il peut être personnalisable. 
 
 > Il en existe quelques unes dans l'assembly `System`
 
-```
-csharp
+```csharp
 DoSomething();
 try
 {
