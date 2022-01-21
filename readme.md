@@ -1,76 +1,99 @@
 # .NET
-> Pour vérifier la version des SDKS : `dotnet --list-sdks`
-> Pour vérifier la version des runtimes : `dotnet --list-runtimes`
+> Pour vérifier la liste :
+> - des SDKS installés : `dotnet --list-sdks`
+> - des runtimes installés : `dotnet --list-runtimes`
+
+Possible d'installer .NET depuis le site https://dot.net.
 
 ## Syntaxe C#
 
-### Légende
+### Légende pour le support de cours
 | Symbole | Définition |
 |-|-|
 | `\|` | `x` ou `y`. |
 | `[abc]` | Non obligatoire.
 
 ```csharp
-/* Définition d'une classe
-Portée/visibilité (voir section dédiée ci-dessous)
-Modificateur (voir section dédiée ci-dessous)
-Le mot clé `class`
-Nom de la classe (ClassName)
-Si héritage, ajouter ":" + le nom de la classe parente (on ne peut hériter que d'une seule classe, mais de plusieurs interfaces)
-Par convention, elle doit être écrite en PascalCase
+/* Définition d'un namespace (espace de noms)
+Permet d'organiser les classes.
+On peut utiliser les "`.`" pour délimiter un namespace et hierarchiser le code.
+Généralement, Societe.Produit.Project.DossierNiveau1.DossierNiveau2
+Exemples : 
+- IdeaStudio.HotelLandon.DemoConsole
+- IdeaStudio.HotelLandon.DemoConsole.Exceptions <- où on mettra les exceptions
+- IdeaStudio.HotelLandon.DemoConsole.Interfaces <- où on mettra les interfaces
+Physiquement, dans le dosser qui contient du projet, il y aura les répértoires suivants : 
+- C:\Repos\
+    - IdeaStudio.HotelLandon.DemoConsole
+        - Exceptions
+        - Interfaces
+
+Plus d'informations : https://docs.microsoft.com/dotnet/csharp/fundamentals/types/namespaces
 */
-public|internal|protected|private [abstract|static|sealed] class ClassName
+namespace Solution.Project 
 {
-    /* Champ privé :
-    - Portée (visibilité par les autres classes)
-    - Type (HttpClient)
-    - nom du champ (camelCase)
+    /* Définition d'une classe
+    Portée/visibilité (voir section dédiée ci-dessous)
+    Modificateur (voir section dédiée ci-dessous)
+    Le mot clé `class`
+    Nom de la classe (ClassName)
+    Si héritage, ajouter ":" + le nom de la classe parente (on ne peut hériter que d'une seule classe, mais de plusieurs interfaces)
+    Par convention, elle doit être écrite en PascalCase
     */
-    private HttpClient httpClient;
+    [public|internal|protected|private] [abstract|static|sealed] class ClassName
+    {
+        /* Champ privé :
+        - Portée (visibilité par les autres classes)
+        - Peut être statique ou en lecture seule
+        - Type (HttpClient)
+        - nom du champ (camelCase)
+        */
+        private [static] [readonly] HttpClient httpClient;
 
-    /* Propriété
-    - Portée
-    - Type
-    - Nom de la propriété
-    - Accesseur (leur portée peut être différente)
-    - On peut directement affecter une valeur par défaut
-    */
-    public HttpClient HttpClient { get; internal|protected|private set; } = new HttpClient();
+        /* Propriété
+        - Portée
+        - Type
+        - Nom de la propriété
+        - Accesseur (leur portée peut être différente)
+        - On peut directement affecter une valeur par défaut
+        */
+        [public|internal|protected|private] HttpClient HttpClient { get; [internal|protected|private] set; } = new HttpClient();
 
-    /* Constructeur 
-    C'est une méthode sans nom
-    - Portée
-    - Nom de la classe
-    - Entre parenthèses, les éventuels paramètres
-    - Si héritage de constructeur, le mot clé `base` avec les paramètres du contructeur parent
-    */
-    public ClassName() { }
-    public ClassName(Foo foo) { }
-    public ClassName(params Foo[] foos) { }
-    public ClassName(Type type) : base (type) { }
+        /* Constructeur 
+        C'est une méthode sans nom
+        - Portée
+        - Nom de la classe
+        - Entre parenthèses, les éventuels paramètres
+        - Si héritage de constructeur, le mot clé `base` avec les paramètres du contructeur parent
+        */
+        public ClassName() { }
+        public ClassName(Foo foo) { }
+        public ClassName(params Foo[] foos) { }
+        public ClassName(Type type) : base (type) { }
 
-    /* Méthode
-    - Portée
-    - Type de retour
-    - Entre parenthèses, les éventuels paramètres
-    - Si héritage d'une méthode parente (et qu'on souhaite l'utiliser), le mot clé `base`
-    */
-    public void DoSomething() { }
-    public void DoSomething(Foo foo) { }
-    public void DoSomething(params Foo[] foos) { }
+        /* Méthode
+        - Portée
+        - Type de retour
+        - Entre parenthèses, les éventuels paramètres
+        - Si héritage d'une méthode parente (et qu'on souhaite l'utiliser), le mot clé `base`
+        */
+        public void DoSomething() { }
+        public void DoSomething(Foo foo) { }
+        public void DoSomething(params Foo[] foos) { }
+    }
 }
 ```
 
 ### Portée
-
+Liste exhaustive : 
 | Portée | Description |
 |-|-|
 | `public` | Visible par toutes les classes, quelque soit l'assembly. |
-| `internal` | Visible par toutes les classes du même assembly. |
+| `internal` | Visible par toutes les classes du même assembly. <br>Valeur par défaut pour les classes. |
 | `protected` | Visible par la classe et les classes qui hérite de celle-ci. |
-| `private` | Visible uniquement par la classe. |
+| `private` | Visible uniquement par la classe. <br>Valeur par défaut pour les champs, propriétés et méthodes. |
 
-### Modificateur
+### Modificateurs
 | | Description |
 |-|-|
 | `abstract` | La classe ne peut pas être instanciée, elle peut comporter des champs/propriété ou méthodes abstraites. |
@@ -78,11 +101,11 @@ public|internal|protected|private [abstract|static|sealed] class ClassName
 | `sealed` | La classe ne peut plus être parente d'une autre classe. |
 
 
-> Plus d'informations 
+> Plus d'informations à propos du...
 >
-> - Mot clé `abstract` https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/abstract
-> - Mot clé `sealed`   https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/sealed
-> - Mot clé `static`   https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/static
+> - mot clé `abstract` https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/abstract
+> - mot clé `sealed`   https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/sealed
+> - mot clé `static`   https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/static
 
 ### Propriété
 `public HttpClient HttpClient { get; set; } [= new()]`
@@ -155,16 +178,74 @@ DoSomething("first", "second", "third", "fourth", "fifth", "sixth");
 
 ### Attributs
 Permet de décorer une classe pour lui donner un _flag_ ou de nouveaux paramètres.
+
+Déclaration :
 ```csharp
-// déclaration
+// déclaration d'un attribut qui peut décorer 
+// une classe, une méthode, un assembly, un constructeur, un champ, une propriété, une interface, etc.
+// On peut également utiliser [System.AttributeUsage(System.AttributeTargets.All)]
 public class FooAttribute : System.Attribute
 {
 }
 
-// utilisation
+// déclaration d'un attribut qui peut décorer une classe (uniquement)
+[System.AttributeUsage(System.AttributeTargets.Class)]
+public class FooAttribute : System.Attribute
+{
+}
+
+// déclaration d'un attribut qui peut décorer une méthode (uniquement)
+[System.AttributeUsage(System.AttributeTargets.Method)]
+public class FooAttribute : System.Attribute
+{
+}
+
+// déclaration d'un attribut qui peut décorer une méthode (uniquement)
+[System.AttributeUsage(System.AttributeTargets.Method)]
+public class FooAttribute : System.Attribute
+{
+}
 ```
-> Plus d'informations sur les attributs : https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/
+Utilisation :
+```csharp
+
+[FooAttribute] // <- on utilise le constructeur de l'attribut
+public class Toto
+{
+}
+
+[Foo] // <- on utilise le constructeur de l'attribut
+public class Toto
+{
+}
+```
+> Plus d'informations à propos 
+> - Des attributs : https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/
+> - L'énumérateur (`enum`) `System.AttributeTargers` : https://docs.microsoft.com/dotnet/api/system.attributetargets
 ___
+
+# Git
+Il existe plusieurs outils permettant d'archiver son code avec Git : 
+- Github
+- Azure DevOps
+- Bitbucket
+- ...
+
+Pour installer l'outil de ligne de commandes : https://git-scm.com. Visual Studio et Visual Studio Code intègrent Git.
+
+## Cloner un projet
+Possible d'utiliser un outil comme Visual Studio ou Visual Studio Code.
+- Tutoriel pour cloner un repository avec Visual Studio Code : https://docs.microsoft.com/azure/developer/javascript/how-to/with-visual-studio-code/clone-github-repository
+- Tutoriel pour cloner un repository avec Visual Studio 2019/2022 : https://docs.microsoft.com/visualstudio/version-control/git-clone-repository
+
+## Travailler avec Git
+Etapes pour publier son code dans un repository Git :
+
+1. Créer une branche dédiée à votre travail, par exemple `features\add`
+
+> Idealement, il faut travailler dans une branche dédiée à une fonctionnalité.
+> Mais l'étape 1 n'est pas obligatoire.
+
 # Hotel Landon
 Application légère de réservation d'hôtel
 ___
@@ -183,32 +264,59 @@ ___
 1. Ecrire un programme console capable d'instancier un `Customer`
 1. Sérialiser et désérialiser en CSV grâce aux classes `System.IO.StreamWriter` et `System.IO.StreamReader`
 
-### Créer un fichier, remplacer un fichier avec un nouveau contenu :
+### Ecrire du texte dans un fichier
+- Possible d'utiliser la classe `System.IO.StreamWriter`.
+- La classe a plusieurs méthodes permettant d'écrire du texte dans la ressource choisie. Dans les exemples ci-dessous, la ressource est le fichier "`data.csv`".
+- Ne pas oublier que la classe `System.IO.StreamWriter` hérite de l'interface `System.IDisposable`. Les ressources, en l'occurrence le fichier "`data.csv`", reste ouvert et est bloqué par le processus. Aucune autre modification des ressources ne sera possible. 2 possibilités : utiliser la méthode `System.IO.StreamWriter.Dispose()` ou utiliser l'instruction `using` (recommandé).
+- Une nouvelle instance de la classe `System.IO.StreamWriter` remplacera le fichier. L'ancien contenu sera remplacé.
+- Pour ajouter du contenu dans un fichier existant, on peut utiliser la méthode statique `System.IO.File.AppendText` qui va créer une instance de `System.IO.StreamWriter`.
 ```csharp
 using (StreamWriter writer = new StreamWriter("data.csv"))
 {
+    // Ajoute une ligne
     writer.WriteLine(customer.ToCsv());
+
+    // Ajoute à la fin de la ligne (sans saut de ligne)
+    writer.Write(customer.ToCsv());
 }
 ```
-
-### Ajouter du texte dans un fichier existant :
 ```csharp
 using (StreamWriter writer = File.AppendText("data.csv"))
 {
+    // Ajoute une ligne
     writer.WriteLine(customer.ToCsv());
+
+    // Ajoute à la fin de la ligne (sans saut de ligne)
+    writer.Write(customer.ToCsv());
 }
 ```
+> Plus d'informations 
+> 
+> - À propos la classe `System.IO.StreamWriter` : https://docs.microsoft.com/dotnet/api/system.io.streamwriter
+>
+> - À propos de la méthode statique `System.IO.File.AppendText(string)` : https://docs.microsoft.com/dotnet/api/system.io.file.appendtext
+>
+> - À propos de l'instruction `using` : https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/using-statement
 
 ### Lire du texte depuis un fichier :
+- Possible d'utiliser la classe `System.IO.StreamReader`
+- La classe `System.IO.StreamReader` a plusieurs méthodes permettant de lire du texte dans la ressources choisie. Dans l'exemple ci-dessous il s'agit du fichier "`data.csv`".
+- Ne pas oublier que la classe System.IO.StreamWriter hérite de l'interface System.IDisposable. 
+- Il est possible de boucler (grâce ) et de lire ligne par ligne.
 ```csharp
 using (StreamReader reader = new StreamReader("data.csv"))
 {
+    // Crée un entier pour indiquer l'index du numéro de ligne
     int lineNumber = 0;
+    // Tant que ce n'est pas la fin du contenu du fichier
     while (!reader.EndOfStream) // Alternative: while ((line = reader.ReadLine()) != null)
     {
+        // On récupère la ligne
         string line = reader.ReadLine();
-        if (line == null || string.IsNullOrWhiteSpace(line))
+        // Si elle est nulle ou est vide (contient au moins un espace)
+        if (string.IsNullOrWhiteSpace(line))
         {
+            // Affiche un message dans la console indiquant le numéro de ligne vide
             Console.WriteLine($"La ligne {lineNumber} est vide.");
 
             // permet d'ignorer la ligne du fichier
@@ -218,22 +326,90 @@ using (StreamReader reader = new StreamReader("data.csv"))
             continue;
         }
         Console.WriteLine(line);
+        // Incrémente le numéro de ligne
         lineNumber++;
     }
 }
 ```
 
-> Contrairement à `break`, `continue` ne va pas casser la boucle entière.
+Contrairement au mot-clé `break`, `continue` ne va pas casser le cycle de la boucle `while`.
 
-> Plus d'informations sur les instructions de saut : https://docs.microsoft.com/dotnet/csharp/language-reference/statements/jump-statements
+> Plus d'informations à propos... 
+> - Des instructions de saut : https://docs.microsoft.com/dotnet/csharp/language-reference/statements/jump-statements
+>
+> - Le mot-clé `while` : https://docs.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement
 
-### Sérialiser en CSV : 
+### Sérialiser en CSV :
+Un exemple parmi tant d'autres possibilités, le faire soi-même avec une méthode :
 ```csharp
 public string ToCsv()
 {
     // avec string interpolation
     return $"{LastName};{FirstName};{BirthDate}";
 }
+```
+
+Avec de la réflexion (pouvant être une méthode d'extension générique) :
+```csharp
+public string ToCsv<T>(IEnumerable<T> items) // version méthode d'extension : public static string ToCsv<T>(this IEnumerable<T> items)
+    where T : class
+{
+    // Créé 2 variables de type `string`, nommées `output` et `delimiter`
+    string output = string.Empty, delimiter = ';';
+    // Récupère la liste des propriétés de la classe générique T
+    System.Reflection.PropertyInfo[] properties = typeof(T).GetProperties()
+    // Filtre les type que l'on souhaite parser au format CSV.
+    // La méthode `Where(...)` est issue de `System.Linq`
+    .Where(n =>
+        n.PropertyType == typeof(string)
+        || n.PropertyType == typeof(bool)
+        || n.PropertyType == typeof(char)
+        || n.PropertyType == typeof(byte)
+        || n.PropertyType == typeof(decimal)
+        || n.PropertyType == typeof(int)
+        || n.PropertyType == typeof(DateTime)
+        || n.PropertyType == typeof(DateTime?));
+    
+    // Création d'un `System.IO.StringWriter` en mémoire (on n'ouvre pas de fichier)
+    using (var sw = new StringWriter())
+    {
+        // Sélectionne les noms des colonnes
+        var header = properties
+            .Select(n => n.Name)
+            .Aggregate((a, b) => a + delimiter + b);
+
+        // On écrit la ligne en mémoire
+        sw.WriteLine(header);
+        
+        // Pour chaque élément d'une liste
+        foreach (var item in items)
+        {
+            // On récupère les valeurs
+            var row = properties
+                .Select(n => n.GetValue(item, null))
+                .Select(n => n == null ? “null” : n.ToString())
+                .Aggregate((a, b) => a + delimiter + b);
+
+            // On écrit la ligne en mémoire
+            sw.WriteLine(row);
+        }
+        
+        // On récupère le contenu écrit en mémoire
+        output = sw.ToString();
+    }
+
+    // On renvoie le contenu CSV
+    return output;
+}
+
+// Admettons que la liste aie plusieurs objets de type `Customer`
+IEnumerable<Customer> customers; 
+
+// appel (méthode classique)
+string csv = ToCsv(customer);
+
+// appel (méthode d'extension)
+string csv = customers.ToCsv();
 ```
 
 ### Désérialiser depuis du CSV : 
@@ -249,9 +425,12 @@ public Customer ToCustomer(string line)
     }
 }
 ```
+> Il existe des packages NuGet permettant de mapper automatiquement.
 
 ### Sérialiser en JSON
-> Pour installer un package NuGet avec dotnet-cli : `dotnet add package {NOM_PACKAGE}` *(`dotnet add package Newtonsoft.Json`)*.
+> Pour installer un package NuGet avec dotnet-cli : `dotnet add package {NOM_PACKAGE}` *(En l'occurrence pour le package `Newtonsoft.Json` : `dotnet add package Newtonsoft.Json`)*.
+>
+> Par défaut, la commande installe la dernière version disponible dans www.nuget.org. Pour installer une version particulière, vous pouvez ajouter l'argument `--version X.X.X.X` (où "`X.X.X.X`" est la version spécifiée)
 ```csharp
 using Newtonsoft.Json;
 // ...
@@ -320,10 +499,13 @@ public abstract class GenericController<TRepository, TEntity> : ControllerBase
 ___
 ## Design Patterns
 
+### Singleton
+> https://fr.wikipedia.org/wiki/Singleton_(patron_de_conception)#C#
+
 ### Inversion of Control (IoC)
 
 Il existe plusieurs implémentations possibles :
-- [**Dependency Injection** (Injection de dépendences)](https://docs.microsoft.com/fr-fr/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0#overview-of-dependency-injection)
+- [**Dependency Injection** (Injection de dépendences)](https://docs.microsoft.com/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0#overview-of-dependency-injection)
 - Service Locator
 - Factory
 ...
