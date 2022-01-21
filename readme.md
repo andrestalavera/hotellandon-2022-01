@@ -289,6 +289,10 @@ ___
 - Dans la classe `Customer`, `HashSet<Reservation> Reservations`
 - Dans la classe `Room`, `HashSet<Reservation> Reservations`
 - Dans la classe `Reservation`, `int CustomerId` et `int RoomId`
+1. Créer une migration grâce à la commande `dotnet ef migrations add NOM_MIGRATION` (par exemple `Initial`).
+1. Appliquer les migrations dans la base de données (si la base de données n'existe pas, elle sera créée) grâce à la commande `dotnet ef database update`.
+
+[Ajouter un shéma]
 
 ### Créer un projet pour tester EF Core
 1. A la racine, créer un projet console (`HotelLandon.DemoEfCore`) qui va me permettre d'interagir avec la base de données : on doit pouvoir créer des clients.
