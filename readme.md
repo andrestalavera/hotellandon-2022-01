@@ -225,27 +225,58 @@ public class Toto
 ___
 
 # Git
-Il existe plusieurs outils permettant d'archiver son code avec Git : 
+- Gratuit et Open Source
+- Peut être utilisé en local ou sur un serveur distant
+
+
+
+Il existe plusieurs _logiciels de gestion de versions décentralisé_ en ligne permettant d'avoir un serveur Git distant : 
 - Github
+- GitLab
 - Azure DevOps
 - Bitbucket
 - ...
 
-Pour installer l'outil de ligne de commandes : https://git-scm.com. Visual Studio et Visual Studio Code intègrent Git.
+Il existe des clients lourds pour Windows, macOS et Linux dont : 
+- GitHub Desktop
+- SourceTree
+- ...
 
-## Cloner un projet
-Possible d'utiliser un outil comme Visual Studio ou Visual Studio Code.
-- Tutoriel pour cloner un repository avec Visual Studio Code : https://docs.microsoft.com/azure/developer/javascript/how-to/with-visual-studio-code/clone-github-repository
-- Tutoriel pour cloner un repository avec Visual Studio 2019/2022 : https://docs.microsoft.com/visualstudio/version-control/git-clone-repository
+Les IDE intègrent généralement git.
+
+Pour installer l'outil de ligne de commandes : https://git-scm.com.
+
+> Visual Studio et Visual Studio Code intègrent Git.
+
 
 ## Travailler avec Git
 Etapes pour publier son code dans un repository Git :
 
-1. Créer une branche dédiée à votre travail, par exemple `features\add`
+### Workflow complet
+![Daniel Kinzler, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons](https://upload.wikimedia.org/wikipedia/commons/d/d8/Git_operations.svg "Daniel Kinzler, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons")(https://commons.wikimedia.org/wiki/File:Git_operations.svg)
 
-> Idealement, il faut travailler dans une branche dédiée à une fonctionnalité.
-> Mais l'étape 1 n'est pas obligatoire.
+### Initialiser avec les commandes Git
+Faire une copie locale du repository distant :
 
+|Etape|Commande|Description|
+|-|-|-|
+|1|_(aucune)_|Choisir un dossier local et y ouvrir une instance d'un terminal. _Par exemple dans le répertoire "`C:\Repos\HotelLandon-2022-01`"._|
+|2|`git init`|Git créé un dossier caché nommé "`.git`" contenant toutes les informations nécessaires pour gérer l'historique et les différentes versions.|
+|3|(aucune)|Ajouter des fichiers (par exemple `readme.md`, `.gitignore`, votre code, ...). <br>_Le fichier "`readme.md`" contient de la documentation qui est affichée dans une page "index" dans les logiciels en ligne_.|
+|4|`git add fichier1 fichier2` ... <br>ou<br>`git add -A`<br>_(Pour ajouter tous les fichiers)_|Ajouter dans le prochain commit le(s) fichier(s).<br>L'argument `-A` (ou `--all`) ajoute au commit tous les fichiers ajoutés, modifiés ou supprimés.|
+|4|`git commit -m "Description de vos modifications"`|Prépare les fichiers ajoutés pour leur attribuer un nom de version. <br>On peut réitérer l'opération plusieurs fois. <br>_Par exemple : <br>`git commit -m "Ajouter readme.md"`<br> `git commit -m "Ajouter .gitignore de Visual Studio"`<br>`git commit -m "Création du projet"`_|
+|5|`git branch -M main`|Créé la branche par défaut "`main`".<br>_Il est courant de trouver "`master`" comme nom de branche par défaut._|
+|6|`git remote add origin git@serveur.com/a/b.git`|Ajoute l'adresse du repository (serveur) distant dans les paramètres du repository local. _Où "`git@serveur.com/a/b.git`" est l'adresse internet du repository.<br>Par exemple "`git@github.com/andrestalavera/hotellandon-2022-01.git`"._|
+|6|`git push -u origin main`|Git envoie tous les commits dans le serveur distant (origin). <br>Le paramètre `-u` (ou `--set-upstream`) ajoute une référence entre dans la branche locale "`main`" et la branche "`main`" présente dans le serveur d'origine (paramètre "`origin`").|
+
+- Tutoriel pour cloner un repository avec Visual Studio Code : https://code.visualstudio.com/docs/editor/versioncontrol#_cloning-a-repository (uniquement en anglais).
+- Tutoriel pour cloner un repository avec Visual Studio 2019/2022 : https://docs.microsoft.com/visualstudio/version-control/git-clone-repository
+
+## Travailler au quotidien avec Git
+>TODO
+
+___
+> La commande `git status` permet d'afficher le statut de chaque fichier :<br>- prêt à être ajouté au prochain commit<br>- qui n'est pas inclu dans le prochain commit<br>- non présent dans le repository distant (origin)
 # Hotel Landon
 Application légère de réservation d'hôtel
 ___
