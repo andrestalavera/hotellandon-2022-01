@@ -1,0 +1,15 @@
+﻿@*Details customer*@
+@model Customer
+
+@{
+    ViewData["Title"] = "Client";
+}
+<div>
+    <div>Nom : @Model.LastName</div>
+    <div>Prénom : @Model.FirstName</div>
+    <div>Date de naissance : @Model.BirthDate</div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Modifier</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id">Supprimer</a>
+</div>

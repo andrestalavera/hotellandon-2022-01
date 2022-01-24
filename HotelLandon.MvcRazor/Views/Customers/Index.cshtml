@@ -1,0 +1,33 @@
+﻿@*Index*@
+@model IEnumerable<Customer>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+<div>
+    <a asp-action="Create">Nouveau</a>
+    <!-- /customers/create -->
+</div>
+<table class="table w-100">
+    <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Date de naissance</th>
+        <th></th>
+    </tr>
+
+    @foreach (var customer in Model)
+    {
+        <tr>
+            <td>@customer.FirstName</td>
+            <td>@customer.LastName</td>
+            <td>@customer.BirthDate</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@customer.Id">Détails</a>
+                <a asp-action="Edit" asp-route-id="@customer.Id">Modifier</a>
+                <a asp-action="Delete" asp-route-id="@customer.Id">Supprimer</a>
+                <!-- /customers/edit/{id} -->
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,25 @@
+﻿@model Customer
+@*Edit customer*@
+<form method="post">
+    <div>
+        Nom de famille :
+        <br />
+        <input asp-for="LastName" />
+    </div>
+    <div>
+        Prénom :
+        <br />
+        <input asp-for="FirstName" />
+    </div>
+    <div>
+        Date de naissance :
+        <br />
+        <input asp-for="BirthDate" />
+    </div>
+    <div>
+        <button type="submit">Modifier</button>
+    </div>
+</form>
+
+@{
+}
