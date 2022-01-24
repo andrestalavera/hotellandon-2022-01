@@ -1,0 +1,15 @@
+﻿@*Delete customer*@
+@model Customer
+
+@{
+    ViewData["Title"] = "Are you sure to delete ?";
+}
+<form method="post" asp-action="DeleteCompleted">
+
+    <div>Supprimer le client suivant ?</div>
+    <div>@Model.FirstName</div>
+    <div>@Model.LastName</div>
+    <div>@Model.BirthDate</div>
+
+    <button type="submit">Supprimer</button>
+</form>
