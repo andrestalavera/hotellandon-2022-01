@@ -509,14 +509,15 @@ ___
 1. Ajouter des chambres (avec une boucle pour initialiser la liste des chambres disponibles).
 
 ## Web API
-1. A la racine, créer un projet Web API à l'aide de la commande `dotnet new webapi --name HotelLandon.Api`
-1. Exécuter et explorer
-1. Ajouter les références `HotelLandon.Data`, `HotelLandon.Models`, `HotelLandon.Repository` dans le projet `HotelLandon.Api`
+1. A la racine, créer un projet Web API à l'aide de la commande `dotnet new webapi --name HotelLandon.Api`.
+1. Exécuter et explorer.
+1. Ajouter les références `HotelLandon.Data`, `HotelLandon.Models`, `HotelLandon.Repository` dans le projet `HotelLandon.Api`.
 1. Créer un contrôleur avec les contraintes suivantes :
 - Classe abstraite (mot-clé `abstract`).
 - Hérite de `Microsoft.AspNetCore.Mvc.ControllerBase`.
-- Prends 2 paramètres génériques : Repository qui doit hériter de `IRepositoryBase<TModel>` et le Modèle qui doit hériter de `TEntity`.
+- Prends 2 paramètres génériques : `TRepository` qui doit hériter de `IRepositoryBase<TEntity>` et `TEntity` qui doit hériter de `EntityBase`.
 - Décorée par les attributs `Microsoft.AspNetCore.Mvc.ApiController` et `Microsoft.AspNetCore.Mvc.Route` (ce dernier doit prendre en paramètre un template, par exemple `[controller]` pour que les routes correspondent au nom du contrôleur).
+- Ayant les méthodes `GetAll`, `GetById(int)`, `Create`, `Update` et `Delete`. <br>Chacune devra retourner un objet de type `ActionResult<T>`, _`T` étant soit un énumérable de `TEntity`, soit un `TEntity`, soit un `bool`_. <br>Chaque méthode devra être décorée d'un attribut associé à son verbe HTTP (get, post, put, delete).
 
 ```csharp
 [Route("[controller]")]
@@ -527,6 +528,26 @@ public abstract class GenericController<TRepository, TEntity> : ControllerBase
 {
 }
 ```
+
+## MVC & Razor
+1. A la racine, créer un projet web mvc nommé `HotelLandon.MvcRazor`.
+1. Exécuter et explorer.
+1. Ajouter les références `HotelLandon.Data`, `HotelLandon.Models`, `HotelLandon.Repository` dans le projet `HotelLandon.MvcRazor`.
+1. Créer un contrôleur avec les contraintes suivates :
+- Classe abstraite 
+- Hérite de `Microsoft.AspNetcore.Mvc.Controller` (qui gère les vues en plus de sa classe mère).
+- Prends 2 paramètres génériques : `TRepository` qui doit hériter de `IRepositoryBase<TEntity>` et `TEntity` qui doit hériter de `EntityBase`.
+- Pas de décoration
+- Ayant les méthodes `Index()`, `Details(int)`, `Create(int)`, `Create(int, TEntity)`, `Edit(int)`, `Edit(int,TEntity)`, `Delete(int)`, `DeleteConfirmed` qui devront retourner un `IActionResult` (ou sa version asynchrone, si nécessaire). 
+<br>Les méthodes `Edit(int,TEntity)` et `Create(int,TEntity)` devront être marquées comme étant virtuelles. Les autres méthodes peuvent l'être également. 
+1. Créer une classe concrète pour les clients, `CustomersController`, qui devra hériter de votre classe abstraite `GenericController<IRepositoryBase<Customer>, Customer>`.
+1. Surcharger les méthodes `Edit(int,Customer)` et `Create(int,Customer)` afin d'ajouter au paramètre de type `Customer` l'attribut `[Bind("Id","FirstName,LastName,BirthDate")]`
+1. Dans le dossire `Views` du projet ; Créer un dossier ayant comme nom, le nom de vôtre contrôleur sans son suffixe. 
+<br>_Exemple : Pour le contrôleur `CustomerController`, le dossier devra porter le nom "`Customers`"._
+1. Pour chaque méthode publique retourant un objet de type `IActionResult`, créer une vue razor (extension "`.cshtml`") du nom de la méthode. Ecrire un code HTML simple permettant simplement de réaliser ce pourquoi la page a été définie.
+<br>_Exemples : 
+<br>Pour la méthode `Index()`, créer un fichier nommé "`Index.cshtml`". Il faudra afficher la liste de tous les clients.
+<br>Pour la méthode `Create()`, créer un fichier nommé "`Create.cshtml`". Il faudra afficher un formulaire permettant de créer un client._
 ___
 ## Design Patterns
 
