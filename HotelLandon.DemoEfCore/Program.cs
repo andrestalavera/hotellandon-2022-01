@@ -60,17 +60,17 @@ namespace HotelLandon.DemoEfCore
             //     }
             //     context.SaveChanges();
             // }
-            RepositoryBase<Customer> customersRepository = new RepositoryBase<Customer>();
-            customersRepository.Add(customer);
+            //RepositoryBase<Customer> customersRepository = new RepositoryBase<Customer>();
+            //customersRepository.Add(customer);
 
-            RepositoryBase<Room> roomsRepository = new RepositoryBase<Room>();
-            if (!roomsRepository.GetAll().Any())
-            {
-                for (int i = 1; i < 10; i++)
-                {
-                    roomsRepository.Add(new Room{ Number = i, Floor = 0 });
-                }
-            }
+            //RepositoryBase<Room> roomsRepository = new RepositoryBase<Room>();
+            //if (!roomsRepository.GetAll().Any())
+            //{
+            //    for (int i = 1; i < 10; i++)
+            //    {
+            //        roomsRepository.Add(new Room{ Number = i, Floor = 0 });
+            //    }
+            //}
         }
     }
 }
