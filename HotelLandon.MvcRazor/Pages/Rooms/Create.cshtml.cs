@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HotelLandon.Data;
 using HotelLandon.Models;
+using HotelLandon.Repository;
 
 namespace HotelLandon.MvcRazor.Pages.Rooms
 {
     public class CreateModel : PageModel
     {
-        private readonly HotelLandon.Data.HotelLandonContext _context;
+        private readonly IRepositoryBase<Room> repository;
 
-        public CreateModel(HotelLandon.Data.HotelLandonContext context)
+        public CreateModel(IRepositoryBase<Room> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         public IActionResult OnGet()
@@ -35,8 +36,7 @@ namespace HotelLandon.MvcRazor.Pages.Rooms
                 return Page();
             }
 
-            _context.Rooms.Add(Room);
-            await _context.SaveChangesAsync();
+            await repository.AddAsync(Room);
 
             return RedirectToPage("./Index");
         }

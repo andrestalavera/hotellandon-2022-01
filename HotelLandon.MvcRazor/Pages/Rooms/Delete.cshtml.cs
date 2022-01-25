@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HotelLandon.Models;
+using HotelLandon.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using HotelLandon.Data;
-using HotelLandon.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HotelLandon.MvcRazor.Pages.Rooms
 {
     public class DeleteModel : PageModel
     {
-        private readonly HotelLandon.Data.HotelLandonContext _context;
+        private readonly IRepositoryBase<Room> repository;
 
-        public DeleteModel(HotelLandon.Data.HotelLandonContext context)
+        public DeleteModel(IRepositoryBase<Room> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         [BindProperty]
@@ -29,7 +26,7 @@ namespace HotelLandon.MvcRazor.Pages.Rooms
                 return NotFound();
             }
 
-            Room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+            Room = await repository.GetAsync(id.Value);
 
             if (Room == null)
             {
@@ -45,13 +42,7 @@ namespace HotelLandon.MvcRazor.Pages.Rooms
                 return NotFound();
             }
 
-            Room = await _context.Rooms.FindAsync(id);
-
-            if (Room != null)
-            {
-                _context.Rooms.Remove(Room);
-                await _context.SaveChangesAsync();
-            }
+            await repository.DeleteAsync(id.Value);
 
             return RedirectToPage("./Index");
         }

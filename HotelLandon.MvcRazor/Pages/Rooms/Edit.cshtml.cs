@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HotelLandon.Models;
+using HotelLandon.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using HotelLandon.Data;
-using HotelLandon.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HotelLandon.MvcRazor.Pages.Rooms
 {
     public class EditModel : PageModel
     {
-        private readonly HotelLandon.Data.HotelLandonContext _context;
+        private readonly IRepositoryBase<Room> repository;
 
-        public EditModel(HotelLandon.Data.HotelLandonContext context)
+        public EditModel(IRepositoryBase<Room> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         [BindProperty]
@@ -25,12 +22,12 @@ namespace HotelLandon.MvcRazor.Pages.Rooms
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || !id.HasValue)
             {
                 return NotFound();
             }
 
-            Room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+            Room = await repository.GetAsync(id.Value);
 
             if (Room == null)
             {
