@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace HotelLandon.MvcRazor
 {
@@ -22,9 +23,11 @@ namespace HotelLandon.MvcRazor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
             //services.AddMvc();
             services.AddDbContext<HotelLandonContext>();
             services.AddTransient<IRepositoryBase<Customer>>(_ => new RepositoryBase<Customer>());
+            services.AddTransient<IRepositoryBase<Room>>(_ => new RepositoryBase<Room>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +55,7 @@ namespace HotelLandon.MvcRazor
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

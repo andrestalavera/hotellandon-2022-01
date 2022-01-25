@@ -86,7 +86,7 @@ namespace Solution.Project
 
 ### Portée
 Liste exhaustive : 
-| Portée | Description |
+| Mot-clé | Description |
 |-|-|
 | `public` | Visible par toutes les classes, quelque soit l'assembly. |
 | `internal` | Visible par toutes les classes du même assembly. <br>Valeur par défaut pour les classes. |
@@ -94,7 +94,7 @@ Liste exhaustive :
 | `private` | Visible uniquement par la classe. <br>Valeur par défaut pour les champs, propriétés et méthodes. |
 
 ### Modificateurs
-| | Description |
+| Mot-clé| Description |
 |-|-|
 | `abstract` | La classe ne peut pas être instanciée, elle peut comporter des champs/propriété ou méthodes abstraites. |
 | `static` | La classe ne peut pas être instanciée, les méthodes publiques sont accessibles depuis l'objet (Exemple `System.Console` ou `System.IO.File`). |
@@ -162,7 +162,7 @@ Liste exhaustive :
 
 > Plus d'informations sur les tâches asynchrones : https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/async/
 
-#### Le mot clé `params`
+### Le mot clé `params`
 - Permet d'avoir un nombre illimité de paramètres. 
 - Le type doit être un tableau.
 - Il doit être le dernier paramètre
@@ -222,7 +222,108 @@ public class Toto
 > Plus d'informations à propos 
 > - Des attributs : https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/
 > - L'énumérateur (`enum`) `System.AttributeTargers` : https://docs.microsoft.com/dotnet/api/system.attributetargets
-___
+
+### Exceptions
+Cela permet de gérer un comportement inattendu. Il peut être personnalisable. Les exceptions héritent de la classe `Exception` et, par convention, on suffixe avec `Exception`.
+
+> Il en existe quelques unes dans l'assembly `System`
+
+```csharp
+DoSomething();
+try
+{
+    DoSomethingElse();
+}
+catch(FormatException ex)
+{
+    Console.WriteLine("Format incorrect.");
+}
+catch(Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+finally
+{
+    FinishAndExecuteAnyway();
+}
+```
+
+Une exception faite maison :
+```csharp
+public class NoNumberException : Exception
+{
+}
+```
+### Génériques (repository)
+> Un paramètre générique est entouré de chevrons. Voir l'exemple en bas de cette section.
+
+1. Créer un projet `HotelLandon.Repository`.
+1. Créer l'interface `IRepositoryBase`. Elle doit prendre un paramètre générique (_TEntity par exemple_).
+1. Utiliser la classe `RepositoryBase<TEntity>` au lieu de `HotelLandonContext` pour ajouter des clients.
+1. Ajouter des chambres à l'aide d'une boucle.
+
+#### Exemple de code d'une classe générique
+```csharp
+/// <summary>
+/// Définition d'une classe générique 
+/// avec des exemples de contraintes 
+/// </summary>
+/// <remarks>
+/// il peut ne pas y en avoir</remarks>
+class Repository<TEntity>
+// TEntity doit avoir un constructeur public sans paramètres
+// where TEntity : new()
+
+// TEntity doit être une classe (pas une interface par exemple)
+// where TEntity : class
+
+// TEntity doit hériter de EntityBase
+    where TEntity : EntityBase
+{
+}
+
+// utilisation
+class Program
+{
+    static void Main()
+    {
+        // Room hérite de EntityBase, Repository
+        var repository = new Repository<Room>();
+    }
+}
+```
+
+Les génériques peuvent s'utiliser avec des méthodes :
+```csharp
+bool IsPositive<TEntity>(TEntity entity)
+    where TEntity : EntityBase
+{
+    if (entity.Id >= 0)
+    {
+        return true;
+    }
+    else return false;
+}
+```
+
+### Méthodes d'extension
+On peut ajouter des méthodes à des classes, même scellées.
+```csharp
+public IsPositive<TEntity>(this TEntity entity)
+    where TEntity : EntityBase
+{
+    ...
+}
+
+// utilisation :
+Customer customer = new();
+bool isPositive = customer.IsPositive();
+```
+
+## Créer la solution
+1. Utiliser la commande `dotnet new sln --name HotelLandon` pour créer une solution Visual Studio nommée "HotelLandon"
+1. Pour chaque projet, l'ajouter à la solution à l'aide de la commande `dotnet sln add [PATH-RELATIF-DU-PROJET]` _(`dotnet sln add HotelLandon.Data`)_.
+1. Ouvrir la solution avec Visual Studio : tous les projets y sont référencés !
 
 # Git
 - Gratuit et Open Source
@@ -483,7 +584,7 @@ public Customer ToCustomer(string json)
 > Vous pouvez exécuter l'application à l'aide de la commande `dotnet run` (= `dotnet restore`, `dotnet build`, exécution). 
 
 ___
-## Données
+## Créer la base de données
 > Installer des outils pour .NET : `dotnet tool install [NAME]`
 
 1. A la racine, créer un projet _librairie de classes_ `HotelLandon.Data`
@@ -500,6 +601,7 @@ ___
 - Dans la classe `Room`, `HashSet<Reservation> Reservations`
 - Dans la classe `Reservation`, `int CustomerId` et `int RoomId`
 1. Créer une migration grâce à la commande `dotnet ef migrations add NOM_MIGRATION` (par exemple `Initial`).
+<br>La migration va créer un delta entre la base de données et le modèle défini dans la classe `HotelLandonContext`. _Si la base de données n'existe pas, elle sera créée par la première migration._
 1. Appliquer les migrations dans la base de données (si la base de données n'existe pas, elle sera créée) grâce à la commande `dotnet ef database update`.
 
 [Ajouter un shéma]
@@ -548,13 +650,15 @@ public abstract class GenericController<TRepository, TEntity> : ControllerBase
 <br>_Exemples : 
 <br>Pour la méthode `Index()`, créer un fichier nommé "`Index.cshtml`". Il faudra afficher la liste de tous les clients.
 <br>Pour la méthode `Create()`, créer un fichier nommé "`Create.cshtml`". Il faudra afficher un formulaire permettant de créer un client._
-___
-## Design Patterns
 
-### Singleton
+## Razor Pages
+
+# Design Patterns
+
+## Singleton
 > https://fr.wikipedia.org/wiki/Singleton_(patron_de_conception)#C#
 
-### Inversion of Control (IoC)
+## Inversion of Control (IoC)
 
 Il existe plusieurs implémentations possibles :
 - [**Dependency Injection** (Injection de dépendences)](https://docs.microsoft.com/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0#overview-of-dependency-injection)
@@ -596,113 +700,8 @@ public class WeatherController : ControllerBase
 > Ici, WeatherController dépends de IWeatherService.
 
 ![Dependency Injection](/images/di.png)
-___
-## Autres
 
-### Exceptions
-Cela permet de gérer un comportement inattendu. Il peut être personnalisable. Les exceptions héritent de la classe `Exception` et, par convention, on suffixe avec `Exception`.
-
-> Il en existe quelques unes dans l'assembly `System`
-
-```csharp
-DoSomething();
-try
-{
-    DoSomethingElse();
-}
-catch(FormatException ex)
-{
-    Console.WriteLine("Format incorrect.");
-}
-catch(Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
-finally
-{
-    FinishAndExecuteAnyway();
-}
-```
-
-Une exception faite maison :
-```csharp
-public class NoNumberException : Exception
-{
-}
-```
-
-### Génériques (repository)
-> Un paramètre générique est entouré de chevrons. Voir l'exemple en bas de cette section.
-
-1. Créer un projet `HotelLandon.Repository`.
-1. Créer l'interface `IRepositoryBase`. Elle doit prendre un paramètre générique (_TEntity par exemple_).
-1. Utiliser la classe `RepositoryBase<TEntity>` au lieu de `HotelLandonContext` pour ajouter des clients.
-1. Ajouter des chambres à l'aide d'une boucle.
-
-#### Exemple de code d'une classe générique
-```csharp
-/// <summary>
-/// Définition d'une classe générique 
-/// avec des exemples de contraintes 
-/// </summary>
-/// <remarks>
-/// il peut ne pas y en avoir</remarks>
-class Repository<TEntity>
-// TEntity doit avoir un constructeur public sans paramètres
-// where TEntity : new()
-
-// TEntity doit être une classe (pas une interface par exemple)
-// where TEntity : class
-
-// TEntity doit hériter de EntityBase
-    where TEntity : EntityBase
-{
-}
-
-// utilisation
-class Program
-{
-    static void Main()
-    {
-        // Room hérite de EntityBase, Repository
-        var repository = new Repository<Room>();
-    }
-}
-```
-
-Les génériques peuvent s'utiliser avec des méthodes :
-```csharp
-bool IsPositive<TEntity>(TEntity entity)
-    where TEntity : EntityBase
-{
-    if (entity.Id >= 0)
-    {
-        return true;
-    }
-    else return false;
-}
-```
-
-### Méthodes d'extension
-On peut ajouter des méthodes à des classes, même scellées.
-```csharp
-public IsPositive<TEntity>(this TEntity entity)
-    where TEntity : EntityBase
-{
-    ...
-}
-
-// utilisation :
-Customer customer = new();
-bool isPositive = customer.IsPositive();
-```
-
-### Créer la solution
-1. Utiliser la commande `dotnet new sln --name HotelLandon` pour créer une solution Visual Studio nommée "HotelLandon"
-1. Pour chaque projet, l'ajouter à la solution à l'aide de la commande `dotnet sln add [PATH-RELATIF-DU-PROJET]` _(`dotnet sln add HotelLandon.Data`)_.
-1. Ouvrir la solution avec Visual Studio : tous les projets y sont référencés !
-
-### Ressources complémentaires
+## Ressources complémentaires
 - [LinkedIn Learning](https://linkedin.com/learning) (cours vidéo avec présentations - payant, 20€/mois~)
 - [Microsoft Learn](https://learn.microsoft.com) (cours écrit avec TP - gratuit)
 - [Documentation .NET](https://docs.microsoft.com/dotnet)
