@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HotelLandon.Models;
+using HotelLandon.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using HotelLandon.Data;
-using HotelLandon.Models;
+using System.Threading.Tasks;
 
 namespace HotelLandon.MvcRazor.Pages.Rooms
 {
     public class DetailsModel : PageModel
     {
-        private readonly HotelLandon.Data.HotelLandonContext _context;
+        private readonly IRepositoryBase<Room> repository;
 
-        public DetailsModel(HotelLandon.Data.HotelLandonContext context)
+        public DetailsModel(IRepositoryBase<Room> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         public Room Room { get; set; }
@@ -28,7 +25,7 @@ namespace HotelLandon.MvcRazor.Pages.Rooms
                 return NotFound();
             }
 
-            Room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+            Room = await repository.GetAsync(id.Value);
 
             if (Room == null)
             {
