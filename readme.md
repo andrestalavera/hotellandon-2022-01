@@ -304,10 +304,14 @@ bool IsPositive<TEntity>(TEntity entity)
     }
     else return false;
 }
+// utilisation : 
+// TEntity = Customer
+Customer customer = new();
+IsPositive(customer);
 ```
 
 ### Méthodes d'extension
-On peut ajouter des méthodes à des classes, même scellées.
+On peut ajouter des méthodes à des classes, même scellées. Ce sont des _méthodes d'extention_. Les méthodes d'extention doivent être écrites dans une classe statique.
 ```csharp
 public IsPositive<TEntity>(this TEntity entity)
     where TEntity : EntityBase
@@ -316,6 +320,7 @@ public IsPositive<TEntity>(this TEntity entity)
 }
 
 // utilisation :
+// TEntity = Customer
 Customer customer = new();
 bool isPositive = customer.IsPositive();
 ```
