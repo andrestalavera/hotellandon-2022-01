@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelLandon.Api", "HotelLan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelLandon.MvcRazor", "HotelLandon.MvcRazor\HotelLandon.MvcRazor.csproj", "{D8233344-EF96-425E-9097-33561350BB07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelLandon.Tests", "HotelLandon.Tests\HotelLandon.Tests.csproj", "{4EA07470-181F-4E57-B8AD-7D21706315A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,18 @@ Global
 		{D8233344-EF96-425E-9097-33561350BB07}.Release|x64.Build.0 = Release|Any CPU
 		{D8233344-EF96-425E-9097-33561350BB07}.Release|x86.ActiveCfg = Release|Any CPU
 		{D8233344-EF96-425E-9097-33561350BB07}.Release|x86.Build.0 = Release|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Debug|x64.Build.0 = Debug|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Debug|x86.Build.0 = Debug|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Release|x64.ActiveCfg = Release|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Release|x64.Build.0 = Release|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{4EA07470-181F-4E57-B8AD-7D21706315A1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
