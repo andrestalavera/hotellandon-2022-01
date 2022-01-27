@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
 
 namespace HotelLandon.Repository
 {
@@ -12,9 +14,21 @@ namespace HotelLandon.Repository
     {
         private HotelLandonContext context;
 
-        public RepositoryBase() => context = new HotelLandonContext();
+        public RepositoryBase(HotelLandonContext context) => this.context = context;
 
         public Task<List<TEntity>> GetAllAsync() => context.Set<TEntity>().ToListAsync();
+
+        public Task<List<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> predicat)
+        {
+            // On prépare la requête
+            IQueryable<TEntity> query = context.Set<TEntity>().AsQueryable();
+            if (predicat != null)
+            {
+                query = query.Where(predicat);
+            }
+            // On exécute la requête
+            return query.ToListAsync();
+        }
 
         public async Task<TEntity> GetAsync(int id) => await context.Set<TEntity>().FindAsync(id);
 
